@@ -1,0 +1,25 @@
+name: Generate Mod Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Zip Mod Contents
+        run: |
+          zip -r pause-enemy.zip . -x "*.git*" ".github/*"
+
+      - name: Publish Latest Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Release
+          files: pause-enemy.zip
